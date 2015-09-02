@@ -63,15 +63,14 @@ void insertion_sort(std::vector<T> &a) {
     T value;
     int index;
     for(int i = 1; i < a.size(); ++i) {
-        value = a[i];
-        index = 0;
-        while(index < i && value > a[index]) {
-            index++;
-        }
-        for(int j = i-1; j >= index; --j) {
-            a[j+1] = a[j];
-        }
-        a[index] = value;
+		int j = i;
+		while(a[j] < a[j-1] && j > 0) {
+			//swap
+			T temp = a[j];
+			a[j] = a[j-1];
+			a[j-1] = temp;
+			--j;
+		}
     }
 }
 
