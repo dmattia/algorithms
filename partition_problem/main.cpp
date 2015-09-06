@@ -53,6 +53,47 @@ int can_end_in_a_tie(std::vector<int> &vect) {
 	return addsTo(vect,0,vect.size()-1,total);
 }
 
+// Performs the same effect as can_end_in_a_tie,
+// but does so with O(n*sum) time and space
+int can_end_in_a_tie_improved(std::vector<int> &vect) {
+	int total = sum(vect); //O(n)
+	int n = vect.size();   //O(1)
+	if(total%2) return 0; //if total is odd, no tie can possible occur
+	total /= 2; //we only care about adding to the half total
+	
+	// create an n x total table
+	int **table = new int*[n];
+	for(int i=0; i < n; ++i) {
+		table[i] = new int[total+1];
+	}
+	//Min of table is table[0][0]. max is table[n-1][total]
+
+	// Iterate through the table and determine if that sum(column) is possible
+	// using the first i values of the vector(row) The final value when sum=total
+	// and i=n will be weather or not a tie can occur
+	for(int i=1; i <= n; ++i) {
+		for(int sum=0; sum <= total; ++sum) {
+			//Check if top row. If it is, only vect[0] and 0 can be found as a sum
+			if(i==1) {
+				table[i-1][sum] = 0;
+				if(sum==0 || sum==vect[i-1]) table[i-1][sum] = 1;
+			} else {
+				// Not in the top row. Value will be true if the value directly
+				// above in the table is true or if the value with the sum of vect[i]
+				// subtracted is true.
+				table[i-1][sum] = 0;
+				if(table[i-2][sum]==1) {
+					table[i-1][sum] = 1;
+				} else if(sum-vect[i-1] >= 0 && table[i-2][sum-vect[i-1]]) {
+					table[i-1][sum] = 1;
+				}
+			}
+		}
+	}
+
+	return table[n-1][total];
+}
+
 int main() {
 	std::vector<int> myVect;
 	myVect.push_back(9);
@@ -106,6 +147,13 @@ int main() {
 	myVect.push_back(3);
 	myVect.push_back(3);
 	myVect.push_back(3);
-
-	std::cout << can_end_in_a_tie(myVect) << std::endl;
+	std::cout << can_end_in_a_tie_improved(myVect) << std::endl;
+	
+	/*myVect.push_back(2);
+	myVect.push_back(3);
+	myVect.push_back(7);
+	myVect.push_back(8);
+	myVect.push_back(10);
+	std::cout << can_end_in_a_tie_improved(myVect) << std::endl;
+	*/
 }
