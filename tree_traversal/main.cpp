@@ -1,50 +1,52 @@
 // This is a simple program working with the tree data structure.
 // It will support postorder, inorder, and preorder traversals
 
-#include <stdio.h>
+#include <iostream>
 
-struct node {
-	char letter;
-	struct node* left;
-	struct node* right;
+template <typename T>
+struct node_t {
+	T value;
+	struct node_t<T>* left;
+	struct node_t<T>* right;
 };
 
-typedef struct node node_t;
-
-void print_preorder(node_t* top) {
+template <typename T>
+void print_preorder(node_t<T>* top) {
 	if(top==NULL) return;
-	printf("%c ",top->letter);
+	std::cout << top->value << " ";
 	print_preorder(top->left);
 	print_preorder(top->right);
 }
 
-void print_postorder(node_t* top) {
+template <typename T>
+void print_postorder(node_t<T>* top) {
 	if(top==NULL) return;
 	print_postorder(top->left);
 	print_postorder(top->right);
-	printf("%c ",top->letter);
+	std::cout << top->value << " ";
 }
 
-void print_inorder(node_t* top) {
+template <typename T>
+void print_inorder(node_t<T>* top) {
 	if(top==NULL) return;
 	print_inorder(top->left);
-	printf("%c ",top->letter);
+	std::cout << top->value << " ";
 	print_inorder(top->right);
 }
 
 int main() {
-	node_t a,b,c,d,e,f,g,h,i,j,k;
-	a.letter = 'a';
-	b.letter = 'b';
-	c.letter = 'c';
-	d.letter = 'd';
-	e.letter = 'e';
-	f.letter = 'f';
-	g.letter = 'g';
-	h.letter = 'h';
-	i.letter = 'i';
-	j.letter = 'j';
-	k.letter = 'k';
+	node_t<char> a,b,c,d,e,f,g,h,i,j,k;
+	a.value = 'a';
+	b.value = 'b';
+	c.value = 'c';
+	d.value = 'd';
+	e.value = 'e';
+	f.value = 'f';
+	g.value = 'g';
+	h.value = 'h';
+	i.value = 'i';
+	j.value = 'j';
+	k.value = 'k';
 	
 	f.left = &d;
 	f.right = &j;
@@ -70,11 +72,11 @@ int main() {
 	k.right = NULL;
 
 	print_preorder(&f);
-	printf("\n");
+	std::cout << std::endl;
 	print_inorder(&f);
-	printf("\n");
+	std::cout << std::endl;
 	print_postorder(&f);
-	printf("\n");
+	std::cout << std::endl;
 
 	return 0;
 }
