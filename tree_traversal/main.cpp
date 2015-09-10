@@ -2,6 +2,7 @@
 // It will support postorder, inorder, and preorder traversals
 
 #include <iostream>
+#include <climits>
 
 template <typename T>
 struct node_t {
@@ -32,6 +33,28 @@ void print_inorder(node_t<T>* top) {
 	print_inorder(top->left);
 	std::cout << top->value << " ";
 	print_inorder(top->right);
+}
+
+int is_valid_bst_util(node_t<int>* top, int min, int max) {
+	if (top==NULL) return 1;
+	int new_min = (min < top->value) ? top->value : min;
+	int new_max = (max < top->value) ? max : top->value;
+	if(top->value > top->left->value && 
+		top->value < top->right->value &&
+		is_valid_bst_util(top->left,min,new_max) &&
+		is_valid_bst_util(top->right,new_min,max)) {
+		return true;
+	}
+	return false;
+}
+
+int is_valid_bst(node_t<int>* top) {
+	// determines if a tree is a valid binary search tree
+	// can be adapted to non int types if that type has
+	// a clear minimum and maximum
+	// Could also be templated by finding the min and max
+	// of the tree, but this would take O(n) in itself
+	return is_valid_bst_util(top,INT_MIN,INT_MAX);
 }
 
 int main() {
