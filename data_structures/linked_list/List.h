@@ -6,6 +6,7 @@
 #include "Node.h"
 #include <iostream>
 #include <cstddef>
+#include <stdexcept>
 
 template <class T>
 class List {
@@ -63,6 +64,24 @@ public:
 		// add a node to the end of the list
 		Node<T>* end = back();
 		end->next = new Node<T>(value);
+	}
+	//O(n)
+	void insert(T value, int index) {
+		if(index == 0) {
+			push_front(value);
+			return;
+		}
+		//inserts a new node before location index
+		if(size() < index || index < 0) {
+			throw std::invalid_argument("cannot insert at that index."); 
+		}
+		Node<T>* p = front();
+		Node<T>* next = p;
+		for(int i=1; i < index; ++i) {
+			p = p->next;
+		}
+		next = p->next;
+		p->next = new Node<T>(value,next);
 	}
 	//O(n)
 	int size() {

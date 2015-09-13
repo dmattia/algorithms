@@ -3,9 +3,9 @@
 
 int main() {
 	List<int> a;
-	a.push_front(5);
-	a.push_front(6);
-	a.push_back(7);
+	a.push_front(1);
+	a.insert(2,1);
+	a.insert(0,0);
 
 	std::cout << "The size is: " << a.size() << std::endl;
 	
