@@ -41,17 +41,9 @@ public:
 	Node<T>* front() {
 		return head;
 	}
-	//O(n)
+	//O(1)
 	Node<T>* back() {
-		if (empty()) return NULL;
-
-		Node<T>* p = front();
-		Node<T>* next = p->next;
-		while(next != NULL) {
-			p = next;
-			next = next->next;
-		}
-		return p;
+		return tail;
 	}
 	//O(1)
 	void push_front(T value) {
@@ -62,19 +54,38 @@ public:
 	//O(n)
 	void push_back(T value) {
 		// add a node to the end of the list
-		Node<T>* end = back();
-		end->next = new Node<T>(value);
+		if(empty()) {
+			head = new Node<T>(value);
+			tail = head;
+		} else {
+			Node<T>* p = front();
+			Node<T>* next = p->next;
+			while(next != NULL) {
+				p = next;
+				next = next->next;
+			}
+	
+			p->next = new Node<T>(value);
+			tail = p->next;
+		}
 	}
 	//O(n)
 	void insert(T value, int index) {
+		//inserts a new node before location index
+		int count = size();
 		if(index == 0) {
 			push_front(value);
 			return;
 		}
-		//inserts a new node before location index
-		if(size() < index || index < 0) {
+		if(index == count) {
+			push_back(value);
+			return;
+		}
+		if(count < index || index < 0) {
 			throw std::invalid_argument("cannot insert at that index."); 
 		}
+
+		//typical case
 		Node<T>* p = front();
 		Node<T>* next = p;
 		for(int i=1; i < index; ++i) {
@@ -99,6 +110,7 @@ public:
 	}
 private:
 	Node<T>* head;	
+	Node<T>* tail;
 };
 
 #endif
