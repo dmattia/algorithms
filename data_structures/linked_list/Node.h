@@ -13,7 +13,8 @@ public:
 	Node(T value,Node<T>* next) : value(value), next(next) {}
 	T getValue() {return value;}
 	Node<T>* getNext() {return next;}
-private:
+
+	// Public data members
 	T value;
 	Node<T>* next;
 };
