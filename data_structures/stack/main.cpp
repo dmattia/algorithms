@@ -9,7 +9,6 @@ int main() {
 	a.push(4);
 	a.push(5);
 
-	std::cout << "Next is: " << a.peek() << std::endl;
 	std::cout << "Top is: " << a.top() << std::endl;
 
 	while(!a.empty()) {

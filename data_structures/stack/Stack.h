@@ -14,23 +14,14 @@ public:
 	//O(1)
 	void push(T item) {
 		// add item to back of stack
-		list.push_back(item);
+		list.push_front(item);
 		_size++;
-	}
-	//O(1)
-	T peek() {
-		// peek at the next value to be poppped
-		if(list.front() != NULL) {
-			return list.front()->value;
-		} else {
-			throw std::out_of_range("No items left on stack");
-		}
 	}
 	//O(1)
 	T top() {
 		// return the last item pushed onto the stack
-		if(list.back() != NULL) {
-			return list.back()->value;
+		if(list.front() != NULL) {
+			return list.front()->value;
 		} else {
 			throw std::out_of_range("No items left on stack");
 		}

@@ -71,7 +71,7 @@ public:
 			tail = p->next;
 		}
 	}
-	//O(n)
+	//O(1)
 	T pop_front() {
 		if(empty()) {
 			throw std::out_of_range("Cannot pop from empty list");
