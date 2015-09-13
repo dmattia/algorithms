@@ -13,6 +13,7 @@ class List {
 public:
 	List() {
 		head = NULL;
+		tail = NULL;
 	}
 	~List() {
 		clear();
@@ -26,6 +27,7 @@ public:
 			current = next;
 		}
 		head = NULL;
+		tail = NULL;
 	}
 	//O(n)
 	void printList() {
@@ -68,6 +70,18 @@ public:
 			p->next = new Node<T>(value);
 			tail = p->next;
 		}
+	}
+	//O(n)
+	T pop_front() {
+		if(empty()) {
+			throw std::out_of_range("Cannot pop from empty list");
+		}
+		Node<T>* to_delete = front();
+		T value = front()->value;
+		head = front()->next;
+		delete to_delete;
+		if(head == NULL) tail = NULL;
+		return value;
 	}
 	//O(n)
 	void insert(T value, int index) {
