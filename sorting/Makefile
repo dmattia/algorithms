@@ -1,12 +1,13 @@
 CC = g++
 PROGRAM = sortTesting 
 OBJECTS = main.o
+FLAGS = -Wall -g -std=c++0x -pthread
 
 $(PROGRAM) : $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(PROGRAM)
+	$(CC) $(FLAGS) $(OBJECTS) -o $(PROGRAM)
 
 %.o : %.cpp
-	$(CC) -c $<
+	$(CC) $(FLAGS) -c $<
 
 clean : 
 	rm -f $(OBJECTS) $(PROGRAM)

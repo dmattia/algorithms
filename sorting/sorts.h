@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <thread>
 
 template <typename T>
 void merge_sort(std::vector<T> &a,int lower_index,int upper_index) {
@@ -16,6 +17,28 @@ void merge_sort(std::vector<T> &a,int lower_index,int upper_index) {
 
     merge_sort(a,lower_index,middle_index);
     merge_sort(a,middle_index+1,upper_index);
+    merge_vectors(a,lower_index,middle_index,upper_index);
+}
+
+template <typename T>
+void merge_parallel(std::vector<T> &a, int lower_index, int upper_index, int depth) {
+    if (upper_index - lower_index < 43) {
+		insertion_sort(a,lower_index,upper_index);
+        return;
+    }
+    
+	int middle_index = (lower_index + upper_index) / 2;
+
+	if(depth < 1) {
+		std::thread t1(merge_parallel<T>,a,lower_index,middle_index,++depth);
+		std::thread t2(merge_parallel<T>,a,middle_index+1,upper_index,++depth);
+		t1.join();
+		t2.join();
+	} else {
+    	merge_sort(a,lower_index,middle_index);
+   		merge_sort(a,middle_index+1,upper_index);
+	}
+
     merge_vectors(a,lower_index,middle_index,upper_index);
 }
 
@@ -47,8 +70,6 @@ void merge_vectors(std::vector<T> &a, int lower_index, int middle_index, int upp
 // templated insertion sort
 template <typename T>
 void insertion_sort(std::vector<T> &a,int lower_index,int upper_index) {
-    T value;
-    int index;
     for(int i = lower_index+1; i < upper_index; ++i) {
 		int j = i;
 		while(a[j] < a[j-1] && j > lower_index) {
